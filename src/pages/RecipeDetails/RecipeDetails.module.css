@@ -1,0 +1,105 @@
+.main {
+  padding: 2rem;
+}
+
+.recipeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.recipeImg {
+  aspect-ratio: 1/1;
+  width: 100%;
+  max-width: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.recipeInstructions {
+  white-space: pre-wrap;
+  line-height: 1.5rem;
+}
+
+.ingredientLabel {
+  display: flex;
+  gap: 0.5rem;
+  background-color: rgb(30, 30, 30);
+  width: fit-content;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.ingredientInput {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(220, 220, 220);
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  background-color: white;
+  transition: background-color 0.2s, border 0.2s;
+}
+
+.ingredientInput:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.ingredientInput:checked::before {
+  content: "✔";
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  color: white;
+}
+
+.ingredientInput:checked + .ingredient {
+  text-decoration: line-through;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 2rem;
+}
+
+.markerBtn {
+  border-radius: 5px;
+  background-color: rgb(20, 20, 20);
+  padding: 1rem 1.5rem;
+  box-shadow: 0 8px 8px 5px rgba(0, 0, 0, 0.7);
+  color: white;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.recipeVideo {
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 16/9;
+  border-radius: 10px;
+}
+
+.finishBtn {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  background-color: rgb(30, 30, 30);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.finishBtn:hover {
+  background-color: rgb(50, 50, 50);
+}
+
+.finishBtn:disabled {
+  background-color: rgba(100, 100, 100, 0.1);
+  cursor: not-allowed;
+  color: gray;
+}
