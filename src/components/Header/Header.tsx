@@ -2,8 +2,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { HeaderProps } from '../../interfaces/Header.interface';
 import styles from './Header.module.css';
 import { FaHeart, FaRegHeart, FaShareAlt, FaRegUserCircle } from 'react-icons/fa';
-import { getFavoritesRecipes } from '../../utils/getLocalStorage';
+import { getFavoritesRecipes, getTheme } from '../../utils/getLocalStorage';
 import { toast } from 'react-toastify';
+import ThemeChanger from '../ThemeChanger/ThemeChanger';
 
 export default function Header({ title, showIcons, isFavorite, recipe, setIsFavorite, showProile = true }: HeaderProps) {
   const navigate = useNavigate();
@@ -37,11 +38,13 @@ export default function Header({ title, showIcons, isFavorite, recipe, setIsFavo
 
   const copyLink = async (): Promise<void> => {
     await navigator.clipboard.writeText(window.location.href)
+    const savedTheme = getTheme();
     toast("Link copiado ✔", {
       pauseOnHover: false,
-      theme: 'dark',
+      theme: savedTheme || 'light',
       autoClose: 2000,
-      position: 'top-left'
+      position: 'bottom-right',
+      type: 'success'
     });
   }
 
@@ -51,11 +54,12 @@ export default function Header({ title, showIcons, isFavorite, recipe, setIsFavo
       <section className={styles.iconsContainer}>
         {showIcons && (
           <>
-            {isFavorite ? <FaHeart className={`${styles.icon} ${styles.heart}`} onClick={unsaveFavoriteRecipe} /> : <FaRegHeart className={styles.icon} onClick={saveFavoriteRecipe} />}
-            <FaShareAlt className={`${styles.icon} ${styles.share}`} onClick={copyLink} />
+            {isFavorite ? <FaHeart className={styles.icon} onClick={unsaveFavoriteRecipe} /> : <FaRegHeart className={styles.icon} onClick={saveFavoriteRecipe} />}
+            <FaShareAlt className={styles.icon} onClick={copyLink} />
           </>
         )}
-        {showProile && <FaRegUserCircle className={`${styles.icon}`} onClick={() => navigate('/profile')} />}
+        <ThemeChanger />
+        {showProile && <FaRegUserCircle className={styles.icon} onClick={() => navigate('/profile')} />}
       </section>
     </header>
   )

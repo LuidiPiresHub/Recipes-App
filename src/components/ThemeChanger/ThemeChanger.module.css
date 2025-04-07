@@ -1,0 +1,11 @@
+.themeChanger {
+  border: none;
+  background-color: transparent;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  color: var(--text-primary);
+}

@@ -1,10 +1,12 @@
 .header {
-  background-color: rgb(20, 20, 20);
+  background-color: var(--bg-secondary);
   padding: 1.5rem 2.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  transition: background-color 0.3s ease;
+  box-shadow: var(--shadow-md);
 }
 
 .title {
@@ -20,12 +22,4 @@
   cursor: pointer;
   height: 20px;
   width: 20px;
-}
-
-.heart {
-  color: red;
-}
-
-.share {
-  color: deepskyblue;
 }
