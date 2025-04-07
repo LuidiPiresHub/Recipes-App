@@ -1,16 +1,41 @@
-export const getChefLevel = (completedRecipes: number): string => {
+export const getChefLevel = (completedRecipes: number) => {
+  const maxLevel = 25;
+  const totalRecipes = 25;
+
+  const level = Math.min(Math.floor((completedRecipes / totalRecipes) * maxLevel), maxLevel);
+
   const levels = [
-    { min: 0, max: 4, name: "Aprendiz de Cozinha" },
-    { min: 5, max: 9, name: "Cozinheiro Iniciante" },
-    { min: 10, max: 19, name: "Aspirante a Chef" },
-    { min: 20, max: 34, name: "Cozinheiro Habilidoso" },
-    { min: 35, max: 49, name: "Chef Caseiro" },
-    { min: 50, max: 74, name: "Chef de Restaurante" },
-    { min: 75, max: 99, name: "Chef Gourmet" },
-    { min: 100, max: 149, name: "Mestre Culinário" },
-    { min: 150, max: 199, name: "Chef Estrela Michelin" },
-    { min: 200, max: Infinity, name: "Lendário Chef Supremo" },
+    "🍳 Novato",
+    "🥣 Aprendiz",
+    "🔪 Iniciante",
+    "🍲 Entusiasta",
+    "🥘 Estudante de Chef",
+    "🍝 Cozinheiro Júnior",
+    "🥗 Praticante",
+    "🧂 Cozinheiro Intermediário",
+    "🍛 Culinário Curioso",
+    "🍤 Explorador de Sabores",
+    "🥩 Habilidoso",
+    "🍜 Chef Amador",
+    "🍱 Cozinheiro Expert",
+    "🍖 Mestre da Grelha",
+    "🧁 Docente de Delícias",
+    "🍰 Chef Confeiteiro",
+    "🍣 Mestre Sushi",
+    "🍕 Pizza Pro",
+    "🌮 Chef Internacional",
+    "🍷 Chef Refinado",
+    "🥇 Mestre Culinário",
+    "🎖️ Chef Estrela",
+    "🏆 Chef Supremo",
+    "👑 Rei da Cozinha",
+    "🔥 Lenda da Culinária",
+    "💫 Chef Imortal"
   ];
 
-  return levels.find(level => completedRecipes >= level.min && completedRecipes <= level.max)?.name || "Desconhecido";
+  return {
+    level,
+    label: levels[level],
+    progress: Math.min((completedRecipes / totalRecipes) * 100, 100),
+  };
 };
