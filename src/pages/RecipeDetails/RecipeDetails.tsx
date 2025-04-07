@@ -5,71 +5,46 @@ import { Recipe } from '../../interfaces/Recipe.interface'
 import styles from './RecipeDetails.module.css'
 import Header from '../../components/Header/Header'
 import { getDoneRecipes, getFavoritesRecipes } from '../../utils/getLocalStorage'
+import { getIngredients } from '../../utils/getIngredients'
+import Loading from '../../components/Loading/Loading'
 
 export default function RecipeDetails() {
   const { id } = useParams<{ id: string }>()
   const [recipe, setRecipe] = useState<Recipe | null>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [ingredientsChecked, setIngredientsChecked] = useState<string[]>([])
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getRecipe = () => {
-      if (recipe) {
-        const favoriteRecipes = getFavoritesRecipes()
-        const isFavorite = favoriteRecipes?.some((favoriteRecipe) => favoriteRecipe.idMeal === recipe.idMeal)
-        setIsFavorite(Boolean(isFavorite))
-      }
-    }
-    getRecipe()
-  }, [recipe])
-
-  useEffect(() => {
-    const getRecipeById = async () => {
+    const fetchRecipeAndInit = async () => {
       if (!recipe) {
-        const { data } = await axios.get<{ meals: Recipe[] }>(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
-        setRecipe(data.meals[0])
+        const { data } = await axios.get<{ meals: Recipe[] }>(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+        const currentRecipe = data.meals[0];
+        setRecipe(currentRecipe);
+        setIsLoading(false);
+
+        const favoriteRecipes = getFavoritesRecipes();
+        const isFavorite = favoriteRecipes?.some((fav) => fav.idMeal === currentRecipe.idMeal);
+        setIsFavorite(Boolean(isFavorite));
+
+        const savedState = localStorage.getItem(`checked_ingredients_${currentRecipe.idMeal}`);
+        if (savedState) setIngredientsChecked(JSON.parse(savedState));
       }
-    }
-    getRecipeById()
-  }, [id, recipe])
+    };
 
-  const getIngredients = (recipe: Recipe): string[] => {
-    const entries = Object.entries(recipe);
-
-    const ingredientsAndMeasures = entries.reduce((acc, [key, value]) => {
-      if (key.includes('strIngredient') && value && value.trim()) {
-        const index = parseInt(key.replace('strIngredient', ''), 10) - 1;
-        acc[index] = acc[index] || { ingredient: '', measure: '' };
-        acc[index].ingredient = value.trim();
-      }
-
-      if (key.includes('strMeasure') && value && value.trim()) {
-        const index = parseInt(key.replace('strMeasure', ''), 10) - 1;
-        acc[index] = acc[index] || { ingredient: '', measure: '' };
-        acc[index].measure = value.trim();
-      }
-
-      return acc;
-    }, [] as Array<{ ingredient: string; measure: string }>);
-
-    return ingredientsAndMeasures.map(({ measure, ingredient }) => `${measure} - ${ingredient}`);
-  };
+    fetchRecipeAndInit();
+  }, [recipe, id]);
 
   useEffect(() => {
     if (recipe) {
-      const savedState = localStorage.getItem(`checked_ingredients_${recipe.idMeal}`);
-      if (savedState) {
-        setIngredientsChecked(JSON.parse(savedState));
+      if (ingredientsChecked.length) {
+        localStorage.setItem(`checked_ingredients_${recipe.idMeal}`, JSON.stringify(ingredientsChecked));
+      } else {
+        localStorage.removeItem(`checked_ingredients_${recipe.idMeal}`);
       }
     }
-  }, [recipe]);
-
-  useEffect(() => {
-    if (recipe) {
-      localStorage.setItem(`checked_ingredients_${recipe.idMeal}`, JSON.stringify(ingredientsChecked));
-    }
-  }, [ingredientsChecked, recipe]);
+  }, [recipe, ingredientsChecked]);
 
   if (!recipe) return;
 
@@ -98,6 +73,15 @@ export default function RecipeDetails() {
   };
 
   const btnDisable = ingredientsChecked.length !== ingredients.length;
+
+  if (isLoading) {
+    return (
+      <>
+        <Header title='Carregando...' />
+        <Loading />
+      </>
+    )
+  }
 
   return (
     <>

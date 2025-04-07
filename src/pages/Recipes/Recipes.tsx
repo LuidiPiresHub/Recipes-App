@@ -1,35 +1,37 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
-import styles from './Recipes.module.css'
-import { Link } from 'react-router-dom'
+import axios from 'axios'
 import { Recipe } from '../../interfaces/Recipe.interface'
+import { RecipeList } from '../../components/RecipeList/RecipeList'
 import Header from '../../components/Header/Header'
+import Loading from '../../components/Loading/Loading'
 
 export default function Recipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const getRecipes = async (): Promise<void> => {
       const { data } = await axios.get<{ meals: Recipe[] }>('https://www.themealdb.com/api/json/v1/1/search.php?s=')
       setRecipes(data.meals)
+      setIsLoading(false)
     }
     getRecipes()
   }, [])
 
+  if (isLoading) {
+    return (
+      <>
+        <Header title='Recipes App' />
+        <Loading />
+      </>
+    )
+  }
 
   return (
-    <>
-    <Header title='Recipes App' />
-      <main className={styles.main}>
-        <section className={styles.recipesContainer}>
-          {recipes.map((recipe) => (
-            <Link key={recipe.idMeal} className={styles.recipe} to={`/recipe/${recipe.idMeal}`}>
-              <img src={recipe.strMealThumb} alt={recipe.strMeal} className={styles.foodImg} />
-              <h2>{recipe.strMeal}</h2>
-            </Link>
-          ))}
-        </section>
-      </main>
-    </>
+    <RecipeList
+      title='Recipes App'
+      recipes={recipes}
+      emptyMessage='Não Foi possivel carregar receitas'
+    />
   )
 }
