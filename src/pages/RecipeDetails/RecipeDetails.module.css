@@ -1,42 +1,61 @@
 .main {
-  padding: 2rem;
+  display: flex;
+  min-height: calc(100dvh - var(--header-height));
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
 }
 
 .recipeContainer {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-}
-
-.recipeImg {
-  aspect-ratio: 1/1;
-  width: 100%;
-  max-width: 400px;
-  object-fit: cover;
+  padding: 2rem;
+  background-color: var(--bg-secondary);
+  max-width: 1200px;
+  margin: 0 auto;
   border-radius: 10px;
 }
 
+.recipeImg {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.recipeTitle {
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  border-radius: 8px;
+}
+
 .recipeInstructions {
-  white-space: pre-wrap;
-  line-height: 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.ingredientItem {
+  list-style: none;
 }
 
 .ingredientLabel {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
-  background-color: var(--bg-secondary);
-  border: 2px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
+  padding-block: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
   width: fit-content;
-  padding: 1rem;
-  border-radius: 5px;
 }
 
 .ingredientInput {
   appearance: none;
   width: 20px;
   height: 20px;
-  border: 2px solid rgb(220, 220, 220);
+  border: 2px solid rgb(200, 200, 200);
   border-radius: 4px;
   display: inline-block;
   position: relative;
@@ -60,34 +79,62 @@
   color: white;
 }
 
-.ingredientInput:checked + .ingredient {
+.ingredientInput:checked+.ingredient {
   text-decoration: line-through;
+}
+
+.ingredient {
+  flex: 1;
 }
 
 .buttonContainer {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
 }
 
 .markerBtn {
-  border-radius: 5px;
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 2px solid var(--border-color);
-  box-shadow: var(--shadow-md);
-  padding: 1rem 1.5rem;
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--accent-color);
+  color: white;
   cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.markerBtn:hover {
+  background-color: var(--accent-color-hover);
+  box-shadow: var(--shadow-lg);
+}
+
+.markerBtn:active {
+  background-color: var(--accent-color-active);
+  box-shadow: var(--shadow-sm);
 }
 
 .recipeVideo {
-  width: 100%;
-  max-width: 500px;
   aspect-ratio: 16/9;
+  width: 100%;
+  border: none;
   border-radius: 10px;
+
+}
+
+.finishNotice {
+  color: var(--text-primary);
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
 .finishBtn {
-  margin-top: 2rem;
+  margin-top: 1rem;
   padding: 1rem 2rem;
   background-color: var(--accent-color);
   color: white;
