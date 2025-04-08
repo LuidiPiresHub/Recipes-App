@@ -2,11 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100dvh - 85px);
+  min-height: calc(100dvh - var(--header-height));
 }
 
 .spinner {
-  border: 8px solid #f3f3f3;
+  border: 8px solid transparent;
   border-top: 8px solid #3498db;
   border-radius: 50%;
   aspect-ratio: 1/1;
