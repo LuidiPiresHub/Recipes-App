@@ -4,6 +4,7 @@ import styles from './Profile.module.css';
 import { getDoneRecipes, getFavoritesRecipes } from '../../utils/getLocalStorage';
 import { getChefLevel } from '../../utils/getChefLevel';
 import chef from '../../images/chef.jpg'
+import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 export default function Profile() {
   const doneRecipes = getDoneRecipes();
@@ -25,17 +26,10 @@ export default function Profile() {
             <p className={styles.profileText}>Nível: {level} - {label} </p>
           </div>
         </section>
-
-        <section className={styles.progressInfo}>
-          <div className={styles.progressText}>
-            <p>{doneRecipes?.length || 0} de 25 receitas</p>
-            <p>{progress}% completo</p>
-          </div>
-          <section className={styles.progressBarContainer}>
-            <div className={styles.progressBar} style={{ width: `${progress}%` }} />
-          </section>
-        </section>
-
+        <ProgressBar
+          title={`${doneRecipes?.length || 0} de 25 receitas`}
+          progress={progress}
+        />
         <section className={styles.stats}>
           <div className={styles.statCard}>
             <span className={styles.statCardIcon}>🍽️</span>
