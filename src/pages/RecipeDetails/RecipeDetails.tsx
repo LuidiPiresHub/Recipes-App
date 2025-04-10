@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Recipe } from '../../interfaces/Recipe.interface'
 import styles from './RecipeDetails.module.css'
 import Header from '../../components/Header/Header'
-import { getDoneRecipes, getFavoritesRecipes } from '../../utils/getLocalStorage'
+import { getDoneRecipes, getFavoritesRecipes, getTheme } from '../../utils/getLocalStorage'
 import { getIngredients } from '../../utils/getIngredients'
 import Loading from '../../components/Loading/Loading'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
@@ -80,7 +80,7 @@ export default function RecipeDetails() {
 
     toast('Receita finalizada! Uhuuuu 😎', {
       pauseOnHover: false,
-      theme: 'light',
+      theme: getTheme() || 'light',
       autoClose: 2000,
       position: 'bottom-right',
       type: 'success'
